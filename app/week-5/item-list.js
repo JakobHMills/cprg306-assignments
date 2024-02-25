@@ -2,12 +2,10 @@
 import React, { useState } from 'react';
 import items from './items.json';
 
-// New Item component
 const Item = ({ item }) => (
   <div>
     <h3>{item.name}</h3>
     <p>{item.description}</p>
-    {/* Render other item properties as needed */}
   </div>
 );
 
@@ -34,7 +32,6 @@ const ItemList = () => {
           >
             <option value="name">Name</option>
             <option value="category">Category</option>
-            {/* Add other sorting options as needed */}
           </select>
         </label>
       </div>
@@ -68,7 +65,6 @@ const ItemList = () => {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {/* Render items using the Item component */}
         {items
           .slice()
           .sort((a, b) => {
