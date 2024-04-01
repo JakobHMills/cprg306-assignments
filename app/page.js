@@ -18,6 +18,9 @@ const AppPage = () => {
       <Link href="/week-7">Go to Week 7 Page</Link>
       <p/>
       <Link href="/week-8">Go to Week 8 Page</Link>
+      <p/>
+      <Link href="/week-10">Go to Week 10 Page</Link>
+  
     </div>
   );
 };

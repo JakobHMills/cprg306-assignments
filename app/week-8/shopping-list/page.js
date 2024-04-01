@@ -1,22 +1,40 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getItems, addItem } from './_services/shopping-list-service';
 import ItemList from './item-list';
 import NewItem from './new-item';
-import MealIdeas from './meal-ideas'; 
-import itemsData from './items.json';
+import MealIdeas from './meal-ideas';
 
-const Page = () => {
-  const [items, setItems] = useState(itemsData);
+const ShoppingList = ({ user }) => {
+  const [items, setItems] = useState([]);
   const [selectedItemName, setSelectedItemName] = useState('');
+
+  const loadItems = async () => {
+    try {
+      const fetchedItems = await getItems(user.uid);
+      setItems(fetchedItems); 
+    } catch (error) {
+      console.error('Error loading items:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadItems(); 
+  }, [user.uid]); 
 
   const handleItemSelect = (selectedItem) => {
     const cleanedItemName = selectedItem.name.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F])/g, '').trim();
     setSelectedItemName(cleanedItemName);
   };
 
-  const handleAddItem = (newItem) => {
-    newItem.id = Math.random().toString();
-    setItems((prevItems) => [...prevItems, newItem]);
+  const handleAddItem = async (newItem) => {
+    try {
+      const newItemId = await addItem(user.uid, newItem);
+      newItem.id = newItemId; 
+      setItems((prevItems) => [...prevItems, newItem]);
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
   };
 
   return (
@@ -33,4 +51,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ShoppingList;
